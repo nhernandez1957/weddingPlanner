@@ -1,0 +1,41 @@
+@model Wedding
+<h1>You Made It @ViewBag.LoggedIn.FirstName</h1>
+
+<table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Wedding</th>
+            <th scope="col">Date</th>
+            <th scope="col">Guests</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Wedding w in ViewBag.AllWeddings)
+        {
+        <tr>
+            <td scope="row"><a href="/wedding/@w.WeddingId"> @w.WedderOne & @w.WedderTwo </a></td>
+            <td>@w.WeddingDate</td>
+            <td>@w.WeddingGuests.Count</td>
+            @* if(w.Wedder == ViewBag.LoggedIn.UserId)
+            {
+                <td><a href="/delete/wedding/@w.WeddingId">Delete</a></td>
+            }
+            @foreach(Guest g in w.WeddingGuests)
+            {
+                if(g.Attendee.UserId == ViewBag.LoggedIn.UserId)
+                {
+                    <td><a href="/user/unRSVP/@g.WeddingId">Un-RSVP</a></td>
+                } else {
+                    <td><a href="/user/RSVP/@g.WeddingId">RSVP</a></td>
+                } *@
+            @if(w.Wedder.UserId == ViewBag.LoggedIn.UserId)
+            {
+                <td><a href="/delete/wedding/@w.WeddingId">Delete</a></td>
+            } else if(w.WeddingGuests.Any(u => u.UserId == ViewBag.LoggedIn.UserId)) {
+                <td><a href="/user/unRSVP/@w.WeddingId">Un-RSVP</a></td>
+            } else {
+                <td><a href="/user/RSVP/@w.WeddingId">RSVP</a></td>
+            }
+        </tr>
+        }
